@@ -1,0 +1,64 @@
+﻿@using Web.Models;
+@model IEnumerable < Post >
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="float:left; clear: left; width: 60%;">
+    <div style="padding: 1%;">
+    @Html.ActionLink("Nova priča", "Create", "Post", null, new { @class = "btn btn-sm btn-success"})
+     @Html.ActionLink("Sve priče", "Index", "Post", null, new { @class = "btn btn-sm btn-success"})
+    </div>
+
+
+		@foreach(Post p in @Model)
+		{
+			<div style="border-radius: 10%; border: 1px solid #73AD21; margin: 1% 0 0 3%; padding: 3%;" > 
+                 <h4> @p.Title </h4>  
+                 <br> 
+                 <p> @p.Content </p>  
+                 <p style="text-align:right;">  @p.Author, @p.Created </p>
+                 <br>        
+                 <p> <i> <b> 
+                      @Html.ActionLink("Odobravam", "CountGoodIncrease","Post",  new { Id = @p.Id }, null) (@p.CountGood) 
+                      @Html.ActionLink("Neodobravam", "CountBadIncrease","Post",  new { Id = @p.Id }, null) (@p.CountBad)
+                      </b>
+                      Tag:  @p.Tag
+                </i> </p>
+            </div>
+		}
+</div>
+
+<div style="float: right; width: 34%;" >
+<div style="border-radius: 10%; border: 1px solid #73AD21;  margin: 0 0 0 3%; padding: 3%;" > 
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+         <h4 style="text-align:center;"> Pretraživanje </h4>       
+        <p>
+            Po naslovu: <input type="text" name="SearchStringTitle" value="@ViewData["CurrentFilterTitle"]" /> 
+        </p>
+        <p>
+            Po tagu: <input type="text" name="SearchStringTag" value="@ViewData["CurrentFilterTag"]" /> 
+        </p>
+        <p>
+            Po autoru: <input type="text" name="SearchStringAuthor" value="@ViewData["CurrentFilterAuthor"]" /> 
+        </p>
+        <input type="submit" value="Pretraži" class="btn btn-default" /> 
+    </div>
+</form>
+</div>
+</div>
+
+<div style="clear: both;" ></div>
+
+<script>
+
+function setActiveTab()
+{
+	$("#navbar li").removeClass("active");
+	$("#post").addClass("active");
+}
+
+</script>
